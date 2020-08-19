@@ -215,7 +215,7 @@ namespace KERBALISM
 			p.AddHeader
 			(
 			  Lib.BuildString("<b>",
-			  Lib.Ellipsis(vessel_name, Styles.ScaleStringLength(((page == MonitorPage.data || page == MonitorPage.log || selected_id == Guid.Empty) && !Lib.IsFlight()) ? 45 : 25)),
+			  Lib.Ellipsis(vessel_name, Styles.ScaleStringLength(25)),
 			  "</b> <size=", Styles.ScaleInteger(9).ToString(), ">", Lib.Color(Lib.Ellipsis(body_name, Styles.ScaleStringLength(8)), Lib.Kolor.LightGrey), "</size>"),
 			  string.Empty,
 			  () => { selected_id = selected_id != v.id ? v.id : Guid.Empty; }
@@ -530,7 +530,8 @@ namespace KERBALISM
 			Problem_sunlight(vd, ref problem_icons, ref problem_tooltips);
 			if (Features.SpaceWeather) Problem_storm(v, ref problem_icons, ref problem_tooltips);
 			if (crew.Count > 0 && Profile.rules.Count > 0) Problem_kerbals(crew, ref problem_icons, ref problem_tooltips);
-			if (crew.Count > 0 && Features.Radiation) Problem_radiation(vd, ref problem_icons, ref problem_tooltips);
+//			if (crew.Count > 0 && Features.Radiation) Problem_radiation(vd, ref problem_icons, ref problem_tooltips);
+			if (Features.Radiation) Problem_radiation(vd, ref problem_icons, ref problem_tooltips);
 			Problem_greenhouses(v, vd.Greenhouses, ref problem_icons, ref problem_tooltips);
 			if (Features.Poisoning) Problem_poisoning(vd, ref problem_icons, ref problem_tooltips);
 
@@ -579,8 +580,8 @@ namespace KERBALISM
 		{
 			List<string> tooltips = new List<string>();
 			uint max_severity = 0;
-			if (vd.CrewCount > 0)
-			{
+//			if (vd.CrewCount > 0)
+//			{
 				foreach (Supply supply in Profile.supplies.FindAll(k => k.resource != "ElectricCharge"))
 				{
 					ResourceInfo res = ResourceCache.GetResource(v, supply.resource);
@@ -598,7 +599,7 @@ namespace KERBALISM
 						max_severity = Math.Max(max_severity, severity);
 					}
 				}
-			}
+//			}
 
 			Texture2D image = max_severity == 2
 			  ? Textures.box_red
